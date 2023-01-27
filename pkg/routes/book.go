@@ -8,7 +8,7 @@ import (
 func GetBook(c *fiber.Ctx) error {
 
 	json := &models.Book{
-		Name:   "Principles",
+		Name:   "Principlesss",
 		Author: "Ray Dalio",
 		Year:   2016,
 	}
