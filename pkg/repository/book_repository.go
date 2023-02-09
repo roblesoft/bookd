@@ -26,12 +26,9 @@ func (r *BookRepository) Get(id any) (any, error) {
 	return w, err
 }
 
-func (r *BookRepository) Create(entity any) (any, error) {
-	w := entity.(*models.Book)
-
-	err := r.db.Create(w).Error
-
-	return w, err
+func (r *BookRepository) Create(book *models.Book) error {
+	err := r.db.Create(book).Error
+	return err
 }
 
 func (r *BookRepository) Update(args any) (any, error) {

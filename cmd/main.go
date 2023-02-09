@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/roblesoft/bookd/pkg/db"
 	"github.com/roblesoft/bookd/pkg/models"
+	"github.com/roblesoft/bookd/pkg/repository"
 	"github.com/roblesoft/bookd/pkg/server"
 	"github.com/spf13/viper"
 )
@@ -16,7 +17,10 @@ func main() {
 
 	db := db.Init(dbUrl)
 	db.AutoMigrate(&models.Book{})
-	db.Create(&models.Book{Author: "Miguel de Cervantes"})
-	server := &server.Server{Port: port}
+
+	repo := &repository.BookRepository{}
+	repo.Configure(db)
+
+	server := &server.Server{Port: port, Repository: repo}
 	server.Start()
 }
