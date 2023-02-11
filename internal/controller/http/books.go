@@ -1,11 +1,11 @@
-package server
+package controllers
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/roblesoft/bookd/pkg/models"
+	entity "github.com/roblesoft/bookd/internal/entity"
 )
 
-func (s *Server) GetAll(c *fiber.Ctx) error {
+func (s *HTTP) GetAll(c *fiber.Ctx) error {
 	limit := c.Query("limit")
 	page := c.Query("page")
 	items, err := s.Repository.GetAll(limit, page)
@@ -18,7 +18,7 @@ func (s *Server) GetAll(c *fiber.Ctx) error {
 	return c.JSON(items)
 }
 
-func (s *Server) GetBook(c *fiber.Ctx) error {
+func (s *HTTP) GetBook(c *fiber.Ctx) error {
 	id, err := c.ParamsInt("id")
 	item, err := s.Repository.Get(id)
 	if err != nil {
@@ -30,8 +30,8 @@ func (s *Server) GetBook(c *fiber.Ctx) error {
 	return c.JSON(item)
 }
 
-func (s *Server) CreateBook(c *fiber.Ctx) error {
-	var book models.Book
+func (s *HTTP) CreateBook(c *fiber.Ctx) error {
+	var book entity.Book
 	if err := c.BodyParser(&book); err != nil {
 		c.Status(400).JSON(fiber.Map{
 			"error": err.Error(),
@@ -47,9 +47,9 @@ func (s *Server) CreateBook(c *fiber.Ctx) error {
 	return c.JSON(book)
 }
 
-func (s *Server) UpdateBook(c *fiber.Ctx) error {
+func (s *HTTP) UpdateBook(c *fiber.Ctx) error {
 	id, _ := c.ParamsInt("id")
-	var book models.Book
+	var book entity.Book
 	if err := c.BodyParser(&book); err != nil {
 		c.Status(400).JSON(fiber.Map{
 			"error": err.Error(),
@@ -66,7 +66,7 @@ func (s *Server) UpdateBook(c *fiber.Ctx) error {
 	return c.JSON(book)
 }
 
-func (s *Server) DeleteBook(c *fiber.Ctx) error {
+func (s *HTTP) DeleteBook(c *fiber.Ctx) error {
 	id, _ := c.ParamsInt("id")
 	if err := s.Repository.Delete(id); err != nil {
 		c.Status(500).JSON(fiber.Map{

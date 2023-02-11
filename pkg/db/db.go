@@ -3,7 +3,7 @@ package db
 import (
 	"log"
 
-	"github.com/roblesoft/bookd/pkg/models"
+	entity "github.com/roblesoft/bookd/internal/entity"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -15,7 +15,7 @@ func Init(url string) *gorm.DB {
 		log.Fatalln(err)
 	}
 
-	db.AutoMigrate(&models.Book{})
+	db.AutoMigrate(&entity.Book{})
 
 	return db
 }
