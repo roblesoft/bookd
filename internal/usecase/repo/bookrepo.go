@@ -11,7 +11,7 @@ type BookRepository struct {
 	Db *gorm.DB
 }
 
-func (r *BookRepository) GetAll(limit, offset string) (any, error) {
+func (r *BookRepository) GetAll(limit, offset string) ([]entity.Book, error) {
 	var books []entity.Book
 	offsetInt, _ := strconv.Atoi(offset)
 	limitInt, _ := strconv.Atoi(limit)
@@ -22,12 +22,12 @@ func (r *BookRepository) GetAll(limit, offset string) (any, error) {
 	return books, err
 }
 
-func (r *BookRepository) Get(id any) (any, error) {
-	var w *entity.Book
+func (r *BookRepository) Get(id int) (*entity.Book, error) {
+	var b *entity.Book
 
-	err := r.Db.Where("id = ?", id).First(&w).Error
+	err := r.Db.Where("id = ?", id).First(&b).Error
 
-	return w, err
+	return b, err
 }
 
 func (r *BookRepository) Create(book *entity.Book) error {
@@ -39,7 +39,7 @@ func (r *BookRepository) Update(book *entity.Book) error {
 	return r.Db.Save(book).Error
 }
 
-func (r *BookRepository) Delete(id any) error {
+func (r *BookRepository) Delete(id int) error {
 	err := r.Db.Delete(&entity.Book{}, id).Error
 	return err
 }

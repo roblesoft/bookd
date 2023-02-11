@@ -4,13 +4,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 
-	repo "github.com/roblesoft/bookd/internal/usecase/repo"
+	usecase "github.com/roblesoft/bookd/internal/usecase"
 )
 
 type HTTP struct {
-	Port       string
-	App        *fiber.App
-	Repository *repo.BookRepository
+	Port    string
+	App     *fiber.App
+	Service *usecase.Service
 }
 
 func (s *HTTP) Start() {

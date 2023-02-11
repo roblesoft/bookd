@@ -3,6 +3,7 @@ package app
 import (
 	http "github.com/roblesoft/bookd/internal/controller/http"
 	entity "github.com/roblesoft/bookd/internal/entity"
+	"github.com/roblesoft/bookd/internal/usecase"
 	repo "github.com/roblesoft/bookd/internal/usecase/repo"
 	"github.com/roblesoft/bookd/pkg/db"
 	"github.com/spf13/viper"
@@ -18,8 +19,9 @@ func Run() {
 	db := db.Init(dbUrl)
 	db.AutoMigrate(&entity.Book{})
 
-	repo := &repo.BookRepository{Db: db}
+	bookRepo := &repo.BookRepository{Db: db}
+	service := usecase.NewService(bookRepo)
 
-	server := &http.HTTP{Port: port, Repository: repo}
+	server := &http.HTTP{Port: port, Service: service}
 	server.Start()
 }
