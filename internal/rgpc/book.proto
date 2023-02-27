@@ -1,0 +1,39 @@
+
+syntax = "proto3";
+package com.example.user.service.v1;
+option go_package = "com.example/usersvcapi/v1";
+
+import "user_model.proto";
+import "google/api/annotations.proto";
+
+service BookService {
+
+    rpc CreateBook(CreateBookRequest) returns (CreateBookResponse) {
+        option (google.api.http) = {
+            post: "/v1/users"
+            body: "user"
+        };
+    }
+
+    rpc GetBook(GetBookRequest) returns (GetBookResponse) {
+        option (google.api.http) = {
+            get: "/v1/users"
+        };
+    }
+}
+
+message CreateBookRequest {
+    com.example.user.model.v1.BookWrite user = 1;    
+}
+
+message CreateBookResponse {
+    string id = 1;    
+}
+
+message GetBookRequest {
+    string id = 1;
+}
+
+message GetBookResponse {
+    com.example.user.model.v1.BookRead user = 1;
+}
